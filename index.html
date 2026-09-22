@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHRIPUR KINDERGARTEN SCHOOL - WAGES SLIP</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-transform: uppercase;
+        }
+
+        body {
+            background-color: #cbd5e1;
+            color: #0f172a;
+            padding: 20px;
+        }
+
+        .no-print {
+            max-width: 800px;
+            margin: 0 auto 20px auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .no-print h2 {
+            margin-bottom: 15px;
+            color: #1e293b;
+            font-size: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form-group select {
+            padding: 10px 15px;
+            font-size: 15px;
+            border: 2px solid #94a3b8;
+            border-radius: 6px;
+            min-width: 250px;
+            outline: none;
+            background: #f8fafc;
+            font-weight: 600;
+        }
+
+        .form-group button {
+            padding: 10px 20px;
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        .form-group button:hover {
+            background-color: #1d4ed8;
+        }
+
+        .print-btn {
+            background-color: #16a34a !important;
+            display: inline-block;
+            padding: 10px 30px;
+            font-size: 15px;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .print-btn:hover {
+            background-color: #15803d !important;
+        }
+
+        .container {
+            max-width: 210mm;
+            margin: 0 auto;
+        }
+
+        .salary-slip {
+            width: 200mm;
+            height: 285mm;
+            margin: 0 auto 15mm auto;
+            background: #ffffff;
+            border: 2px solid #0f172a;
+            padding: 40px 45px;
+            page-break-after: always;
+            page-break-inside: avoid;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .school-header {
+            text-align: center;
+            border-bottom: 3px double #0f172a;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .school-header img {
+            height: 70px;
+            width: auto;
+        }
+
+        .school-header h3 {
+            font-size: 24px;
+            font-weight: 800;
+            color: #0f172a;
+            letter-spacing: 1px;
+        }
+
+        .school-header .month-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-top: 6px;
+            color: #334155;
+            letter-spacing: 1.5px;
+        }
+
+        .staff-info-box {
+            background: #f8fafc;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin-bottom: 25px;
+        }
+
+        .staff-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1e293b;
+        }
+
+        .staff-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 800;
+            color: #1e293b;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            border-left: 5px solid #2563eb;
+            padding-left: 10px;
+        }
+
+        .performance-table, .wages-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            margin-bottom: 25px;
+        }
+
+        .performance-table th, .performance-table td,
+        .wages-table th, .wages-table td {
+            border: 1.5px solid #64748b;
+            padding: 10px 12px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .performance-table td:nth-child(odd) {
+            text-align: left;
+            background-color: #f8fafc;
+            width: 28%;
+        }
+
+        .performance-table td:nth-child(even) {
+            width: 22%;
+        }
+
+        .spacer-col {
+            width: 4% !important;
+            border-top: none !important;
+            border-bottom: none !important;
+            background: transparent !important;
+        }
+
+        .wages-table th {
+            background-color: #e2e8f0;
+            color: #0f172a;
+            font-weight: 800;
+        }
+
+        .conditions-box {
+            background: #f8fafc;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .condition-col {
+            width: 48%;
+            font-size: 12px;
+            line-height: 1.6;
+            color: #334155;
+            font-weight: 600;
+        }
+
+        .condition-col b {
+            display: block;
+            font-size: 13px;
+            margin-bottom: 6px;
+            color: #0f172a;
+            border-bottom: 1.5px solid #94a3b8;
+            padding-bottom: 3px;
+            letter-spacing: 0.5px;
+        }
+
+        .signatures {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 20px;
+        }
+
+        .sig-box {
+            width: 220px;
+            text-align: center;
+        }
+
+        .sig-line {
+            border-top: 2px solid #0f172a;
+            padding-top: 8px;
+            font-size: 14px;
+            font-weight: 800;
+            color: #0f172a;
+            letter-spacing: 0.5px;
+        }
+
+        @media print {
+            body {
+                background: none;
+                padding: 0;
+            }
+            .no-print {
+                display: none;
+            }
+            .salary-slip {
+                border: 2px solid #000;
+                margin: 0;
+                box-shadow: none;
+                page-break-after: always;
+            }
+            @page {
+                size: A4;
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="no-print">
+        <h2>SHRIPUR KINDERGARTEN SCHOOL - WAGES PORTAL</h2>
+        <div class="form-group">
+            <select id="staffSelect">
+                <option value="ALL">ALL STAFF</option>
+            </select>
+            <button onclick="fetchSlips()">LOAD SLIPS</button>
+        </div>
+        <button class="print-btn" onclick="window.print()">PRINT ALL SLIPS (1 PER PAGE)</button>
+    </div>
+
+    <div class="container" id="slipContainer">
+        <p style="text-align:center; color:#666; margin-top:50px; font-weight:600;">CLICK 'LOAD SLIPS' TO VIEW WAGES SLIPS.</p>
+    </div>
+
+    <script>
+        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwr51gHL1y2SKsV_lMsWmfgOS_gO6eSkTLRWrjWut8E1QHagQcA8tXDmdEsMJA4osBd/exec";
+        let allSlipsData = [];
+
+        async function loadStaffList() {
+            try {
+                const response = await fetch(GAS_WEB_APP_URL);
+                const data = await response.json();
+
+                if (data && data.length > 0) {
+                    allSlipsData = data;
+                    const staffSelect = document.getElementById('staffSelect');
+                    staffSelect.innerHTML = '<option value="ALL">ALL STAFF</option>';
+
+                    data.forEach(slip => {
+                        const option = document.createElement('option');
+                        option.value = slip.name;
+                        option.textContent = slip.name;
+                        staffSelect.appendChild(option);
+                    });
+
+                    renderSlips(allSlipsData);
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        function fetchSlips() {
+            const selectedName = document.getElementById('staffSelect').value;
+            if (selectedName === 'ALL') {
+                renderSlips(allSlipsData);
+            } else {
+                const filtered = allSlipsData.filter(slip => slip.name === selectedName);
+                renderSlips(filtered);
+            }
+        }
+
+        function renderSlips(data) {
+            const container = document.getElementById('slipContainer');
+
+            if (!data || data.length === 0) {
+                container.innerHTML = "<p style='text-align:center; color:red; font-weight:bold;'>NO DATA FOUND!</p>";
+                return;
+            }
+
+            let html = '';
+            
+            data.forEach(slip => {
+                let deductionVal = Number(slip.deduction) > 0 ? slip.deduction : '0.00';
+                
+                html += `
+                    <div class="salary-slip">
+                        <div>
+                            <div class="school-header">
+                                <img src="Images/logo.png" alt="School Logo" onerror="this.style.display='none'">
+                                <div>
+                                    <h3>SHRIPUR KINDERGARTEN SCHOOL</h3>
+                                    <div class="month-title">WAGES SLIP &mdash; ${slip.month}</div>
+                                </div>
+                            </div>
+
+                            <div class="staff-info-box">
+                                <div class="staff-row">
+                                    <div><b>NAME:</b> ${slip.name}</div>
+                                    <div><b>PH NO:</b> ${slip.phone}</div>
+                                </div>
+                                <div class="staff-row" style="margin-top: 6px;">
+                                    <div><b>ADDRESS:</b> ${slip.address}</div>
+                                </div>
+                            </div>
+
+                            <div class="section-title">PERFORMANCE DETAILS</div>
+                            <table class="performance-table">
+                                <tr>
+                                    <td>TOTAL DAYS</td>
+                                    <td><b>${slip.totalDay}</b></td>
+                                    <td class="spacer-col"></td>
+                                    <td>WORKING DAYS</td>
+                                    <td><b>${slip.workingDay}</b></td>
+                                </tr>
+                                <tr>
+                                    <td>SUNDAYS</td>
+                                    <td><b>${slip.sunDay}</b></td>
+                                    <td class="spacer-col"></td>
+                                    <td>RED F.D.</td>
+                                    <td><b style="color:#dc2626;">${slip.redFd}</b></td>
+                                </tr>
+                                <tr>
+                                    <td>HOLIDAYS</td>
+                                    <td><b>${slip.holiDay}</b></td>
+                                    <td class="spacer-col"></td>
+                                    <td>GREEN F.D.</td>
+                                    <td><b style="color:#16a34a;">${slip.greenFd}</b></td>
+                                </tr>
+                            </table>
+
+                            <div class="section-title">WAGES DETAILS</div>
+                            <table class="wages-table">
+                                <tr>
+                                    <th>BASIC PAY</th>
+                                    <th>RED DEDUCTION</th>
+                                    <th>GREEN DEDUCTION</th>
+                                    <th>NET WAGES</th>
+                                </tr>
+                                <tr>
+                                    <td><b>${slip.basic}</b></td>
+                                    <td style="color:#dc2626;"><b>${deductionVal}</b></td>
+                                    <td style="color:#16a34a;"><b>0.00</b></td>
+                                    <td><b style="font-size: 15px; color:#0f172a;">${slip.netWages}</b></td>
+                                </tr>
+                            </table>
+
+                            <div class="conditions-box">
+                                <div class="condition-col">
+                                    <b>RED DEDUCTION RULE</b>
+                                    IF FD = 1, BASIC &times; FD / 30<br>
+                                    IF FD &gt; 1, BASIC &times; FD / WORKING DAYS
+                                </div>
+                                <div class="condition-col">
+                                    <b>GREEN DEDUCTION RULE</b>
+                                    IF FD &le; 2, BASIC &times; FD / 30<br>
+                                    IF FD &gt; 2, BASIC &times; FD / WORKING DAYS
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="signatures">
+                            <div class="sig-box">
+                                <div class="sig-line">STAFF SIGNATURE</div>
+                            </div>
+                            <div class="sig-box">
+                                <div class="sig-line">PRINCIPAL SIGNATURE</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        window.onload = loadStaffList;
+    </script>
+</body>
+</html>
