@@ -1,0 +1,73 @@
+function doGet(e) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = ss.getSheetByName("08_AUGUST_2026"); 
+  const data = sheet.getDataRange().getValues();
+  
+  const targetMonth = e.parameter.month;
+  const targetUid = e.parameter.uid;  
+  
+  let results = [];
+  
+  for (let i = 1; i < data.length; i++) {
+    let row = data[i];
+    
+    let stat = String(row[0]).trim().toUpperCase();
+    let month = String(row[1]).trim().toUpperCase();
+    let uid = String(row[2]).trim().toUpperCase();   
+    let basic = Number(row[3]) || 0;                 
+    let name = row[4];                               
+    let phone = row[5];                              
+    let address = row[6];                            
+    let totalDay = Number(row[7]) || 0;              
+    let sunDay = Number(row[8]) || 0;                
+    let holiDay = Number(row[9]) || 0;               
+    let workingDay = Number(row[10]) || 0;           
+    let greenFd = Number(row[11]) || 0;              
+    let redFd = Number(row[12]) || 0;                
+    
+    if (stat !== "ACT") {
+      continue;
+    }
+    
+    if (targetMonth && month !== targetMonth.toUpperCase()) continue;
+    if (targetUid && uid !== targetUid.toUpperCase()) continue;
+    
+    let redDeduction = 0;
+    if (redFd === 1) {
+      redDeduction = (basic * redFd) / 30;
+    } else if (redFd > 1) {
+      redDeduction = (basic * redFd) / workingDay;
+    }
+    
+    let greenDeduction = 0;
+    if (greenFd > 0 && greenFd <= 2) {
+      greenDeduction = (basic * greenFd) / 30;
+    } else if (greenFd > 2) {
+      greenDeduction = (basic * greenFd) / workingDay;
+    }
+    
+    let totalDeduction = redDeduction + greenDeduction;
+    let netWages = basic - totalDeduction;
+    
+    results.push({
+      stat: stat,
+      month: month,
+      uid: uid,
+      name: name,
+      phone: phone,
+      address: address,
+      basic: basic,
+      totalDay: totalDay,
+      sunDay: sunDay,
+      holiDay: holiDay,
+      workingDay: workingDay,
+      greenFd: greenFd,
+      redFd: redFd,
+      deduction: Number(totalDeduction.toFixed(2)),
+      netWages: Number(netWages.toFixed(2))
+    });
+  }
+  
+  return ContentService.createTextOutput(JSON.stringify(results))
+    .setMimeType(ContentService.MimeType.JSON);
+}
