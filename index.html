@@ -3,20 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SHRIPUR KINDERGARTEN SCHOOL - WAGES SLIP</title>
+    <title>Shripur Kindergarten School - Wages Portal</title>
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            font-weight: normal;
-            font-size: 10px;
+            font-family: Arial, sans-serif;
         }
 
         body {
             background-color: #cbd5e1;
-            color: #0f172a;
             padding: 10px;
         }
 
@@ -88,169 +85,76 @@
             page-break-after: always;
         }
 
-        .salary-slip {
-            width: 100%;
+        .slip {
+            border: 1px solid #333;
+            padding: 10px;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
             height: 100%;
-            background: #ffffff;
-            border: 1px solid #0f172a;
-            padding: 8px 10px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            box-sizing: border-box;
         }
 
-        .school-header {
+        .school-name {
             text-align: center;
-            border-bottom: 2px double #0f172a;
-            padding-bottom: 4px;
-            margin-bottom: 6px;
+            font-weight: bold;
+            font-size: 14px;
+            text-transform: uppercase;
         }
 
-        .school-top {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            margin-bottom: 2px;
-        }
-
-        .school-top img {
-            height: 22px;
-            width: auto;
-        }
-
-        .school-header h3 {
-            font-size: 13px;
-            color: #0f172a;
-            letter-spacing: 0.3px;
-        }
-
-        .school-address {
-            font-size: 7.5px;
+        .school-address, .slip-title {
+            text-align: center;
+            font-size: 9.5px;
+            margin-bottom: 3px;
             color: #334155;
-            margin-bottom: 2px;
         }
 
-        .month-title {
-            font-size: 9px;
-            color: #334155;
-            letter-spacing: 0.5px;
+        .slip-title {
+            font-weight: bold;
         }
 
-        .staff-info-box {
-            background: #f8fafc;
-            border: 1px solid #cbd5e1;
-            border-radius: 3px;
-            padding: 5px 8px;
-            margin-bottom: 6px;
+        .info-row {
             display: flex;
             justify-content: space-between;
-            gap: 5px;
+            font-size: 11px;
+            margin: 4px 0;
         }
 
-        .staff-left {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-            font-size: 9.5px;
+        .name {
+            text-transform: uppercase;
+            font-weight: bold;
         }
 
-        .staff-right {
-            font-size: 8px;
-            text-align: right;
-            max-width: 50%;
-            line-height: 1.2;
-            color: #334155;
-        }
-
-        .section-title {
-            font-size: 9.5px;
-            color: #1e293b;
-            margin-bottom: 3px;
-            border-left: 2px solid #2563eb;
-            padding-left: 4px;
-        }
-
-        .performance-table, .wages-table {
+        table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 9px;
-            margin-bottom: 6px;
+            margin-top: 5px;
+            font-size: 10px;
         }
 
-        .performance-table th, .performance-table td,
-        .wages-table th, .wages-table td {
-            border: 1px solid #64748b;
-            padding: 3px 5px;
+        th, td {
+            border: 1px solid #999;
+            padding: 3px 4px;
             text-align: center;
         }
 
-        .performance-table td:nth-child(odd) {
-            text-align: left;
-            background-color: #f8fafc;
-            width: 28%;
-        }
-
-        .performance-table td:nth-child(even) {
-            width: 22%;
-        }
-
-        .spacer-col {
-            width: 4% !important;
-            border-top: none !important;
-            border-bottom: none !important;
-            background: transparent !important;
-        }
-
-        .wages-table th {
-            background-color: #e2e8f0;
-            color: #0f172a;
-        }
-
-        .conditions-box {
-            background: #f8fafc;
-            border: 1px solid #cbd5e1;
-            border-radius: 3px;
-            padding: 5px 6px;
-            margin-bottom: 8px;
-            display: flex;
-            justify-content: space-between;
-            gap: 5px;
-        }
-
-        .condition-col {
-            width: 48%;
-            font-size: 7.5px;
-            line-height: 1.3;
-            color: #334155;
-        }
-
-        .condition-col span {
-            display: block;
-            font-size: 7.5px;
-            margin-bottom: 2px;
-            color: #0f172a;
-            border-bottom: 1px solid #94a3b8;
-            padding-bottom: 1px;
+        th {
+            background-color: #eee;
+            font-weight: normal;
         }
 
         .signatures {
             display: flex;
             justify-content: space-between;
-            margin-top: 10px;
-            padding-top: 4px;
+            margin-top: 15px;
+            font-size: 11px;
         }
 
-        .sig-box {
-            width: 80px;
-            text-align: center;
-        }
-
-        .sig-line {
-            border-top: 1px solid #0f172a;
-            padding-top: 2px;
-            font-size: 9.5px;
-            color: #0f172a;
+        hr {
+            border: 0;
+            border-top: 1px solid #ccc;
+            margin: 5px 0;
         }
 
         @media print {
@@ -279,18 +183,18 @@
 <body>
 
     <div class="no-print">
-        <h2>SHRIPUR KINDERGARTEN SCHOOL - WAGES PORTAL</h2>
+        <h2>Shripur Kindergarten School - Wages Portal</h2>
         <div class="form-group">
             <select id="staffSelect">
-                <option value="ALL">ALL STAFF</option>
+                <option value="ALL">All Staff</option>
             </select>
-            <button onclick="fetchSlips()">LOAD SLIPS</button>
+            <button onclick="fetchSlips()">Load Slips</button>
         </div>
-        <button class="print-btn" onclick="window.print()">PRINT ALL SLIPS</button>
+        <button class="print-btn" onclick="window.print()">Print All Slips</button>
     </div>
 
     <div class="container" id="slipContainer">
-        <p style="text-align:center; color:#666; margin-top:30px;">CLICK 'LOAD SLIPS' TO VIEW WAGES SLIPS.</p>
+        <p style="text-align:center; color:#666; margin-top:30px;">Click 'Load Slips' to view wages slips.</p>
     </div>
 
     <script>
@@ -305,7 +209,7 @@
                 if (data && data.length > 0) {
                     allSlipsData = data;
                     const staffSelect = document.getElementById('staffSelect');
-                    staffSelect.innerHTML = '<option value="ALL">ALL STAFF</option>';
+                    staffSelect.innerHTML = '<option value="ALL">All Staff</option>';
 
                     data.forEach(slip => {
                         const option = document.createElement('option');
@@ -335,11 +239,10 @@
             const container = document.getElementById('slipContainer');
 
             if (!data || data.length === 0) {
-                container.innerHTML = "<p style='text-align:center; color:red;'>NO DATA FOUND!</p>";
+                container.innerHTML = "<p style='text-align:center; color:red;'>No data found!</p>";
                 return;
             }
 
-            // Group slips into chunks of 4 for A4 pages
             let pagesHtml = '';
             for (let i = 0; i < data.length; i += 4) {
                 const pageSlips = data.slice(i, i + 4);
@@ -350,59 +253,49 @@
                     let deductionVal = Number(slip.deduction) > 0 ? slip.deduction : '0.00';
                     
                     pagesHtml += `
-                        <div class="salary-slip">
+                        <div class="slip">
                             <div>
-                                <div class="school-header">
-                                    <div class="school-top">
-                                        <img src="Images/logo.png" alt="Logo" onerror="this.style.display='none'">
-                                        <h3>SHRIPUR KINDERGARTEN SCHOOL</h3>
-                                    </div>
-                                    <div class="school-address">AT: SHRIPUR, PO: JHARBARI, PS: GOALPOKHER, DISTT: UTTARDINAJPUR, WB, PIN: 733210</div>
-                                    <div class="month-title">WAGES SLIP # ${slip.month}</div>
+                                <div class="school-name">Shripur Kindergarten School</div>
+                                <div class="school-address">At. Shripur, Po. Jharbari, Ps. Goalpokher, Distt. Uttar Dinajpur, Wb, Pin: 733210</div>
+                                <div class="slip-title">Wages Slip : ${slip.month}</div>
+                                <hr>
+                                <div class="info-row">
+                                    <span>Name: <span class="name">${slip.name}</span></span>
+                                    <span>Address: ${slip.address}</span>
                                 </div>
-
-                                <div class="staff-info-box">
-                                    <div class="staff-left">
-                                        <div>NAME: ${slip.name}</div>
-                                        <div>PHONE NO: ${slip.phone}</div>
-                                    </div>
-                                    <div class="staff-right">
-                                        ADDRESS: ${slip.address}
-                                    </div>
+                                <div class="info-row">
+                                    <span>Phone No: ${slip.phone}</span>
                                 </div>
-
-                                <div class="section-title">PERFORMANCE DETAILS</div>
-                                <table class="performance-table">
+                                <table>
                                     <tr>
-                                        <td>TOTAL DAYS</td>
+                                        <th colspan="2">Performance Details</th>
+                                        <th colspan="2">Working Details</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Total Days</td>
                                         <td>${slip.totalDay}</td>
-                                        <td class="spacer-col"></td>
-                                        <td>WORKING DAYS</td>
+                                        <td>Working Days</td>
                                         <td>${slip.workingDay}</td>
                                     </tr>
                                     <tr>
-                                        <td>SUNDAYS</td>
+                                        <td>Sundays</td>
                                         <td>${slip.sunDay}</td>
-                                        <td class="spacer-col"></td>
-                                        <td>RED F.D.</td>
+                                        <td>Red F.D.</td>
                                         <td>${slip.redFd}</td>
                                     </tr>
                                     <tr>
-                                        <td>HOLIDAYS</td>
+                                        <td>Holidays</td>
                                         <td>${slip.holiDay}</td>
-                                        <td class="spacer-col"></td>
-                                        <td>GREEN F.D.</td>
+                                        <td>Green F.D.</td>
                                         <td>${slip.greenFd}</td>
                                     </tr>
                                 </table>
-
-                                <div class="section-title">WAGES DETAILS</div>
-                                <table class="wages-table">
+                                <table>
                                     <tr>
-                                        <th>BASIC PAY</th>
-                                        <th>RED DEDUCTION</th>
-                                        <th>GREEN DEDUCTION</th>
-                                        <th>NET WAGES</th>
+                                        <th>Basic Pay</th>
+                                        <th>Red Deduction</th>
+                                        <th>Green Deduction</th>
+                                        <th>Net Wages</th>
                                     </tr>
                                     <tr>
                                         <td>${slip.basic}</td>
@@ -411,28 +304,10 @@
                                         <td>${slip.netWages}</td>
                                     </tr>
                                 </table>
-
-                                <div class="conditions-box">
-                                    <div class="condition-col">
-                                        <span>RED DEDUCTION RULE</span>
-                                        IF FD = 1, BASIC &times; FD / 30<br>
-                                        IF FD &gt; 1, BASIC &times; FD / WORKING DAYS
-                                    </div>
-                                    <div class="condition-col">
-                                        <span>GREEN DEDUCTION RULE</span>
-                                        IF FD &le; 2, BASIC &times; FD / 30<br>
-                                        IF FD &gt; 2, BASIC &times; FD / WORKING DAYS
-                                    </div>
-                                </div>
                             </div>
-
                             <div class="signatures">
-                                <div class="sig-box">
-                                    <div class="sig-line">STAFF</div>
-                                </div>
-                                <div class="sig-box">
-                                    <div class="sig-line">PRINCIPAL</div>
-                                </div>
+                                <span>Staff</span>
+                                <span>Principal</span>
                             </div>
                         </div>
                     `;
