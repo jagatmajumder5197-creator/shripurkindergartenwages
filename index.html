@@ -507,7 +507,6 @@
             const advanced = parseFloat(row.ADVANCED) || 0;
             const fees = parseFloat(row.FEES) || 0;
 
-            // Fixed Red Deduction calculation logic
             let redDtn = 0;
             if (redFd === 1) {
                 redDtn = (basic * redFd) / 30;
@@ -569,6 +568,7 @@
                             <tr>
                                 <td class="perf-label">Sundays</td>
                                 <td class="perf-value">${sunDay}</td>
+                                <td class="spacer"></td>
                                 <td class="perf-label">Red F.D.</td>
                                 <td class="perf-value">${redFd.toFixed(0)}</td>
                             </tr>
