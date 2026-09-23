@@ -356,22 +356,21 @@
                 
                 pagesHtml += `<div class="a4-page">`;
                 
-                pageSlips.forEach(slip => {
-                    let redDeductionVal = Number(slip.deduction) > 0 ? Number(slip.deduction) : 0;
-                    let greenDeductionVal = Number(slip.greenDeduction) > 0 ? Number(slip.greenDeduction) : 0;
-                    let advancedVal = (slip.advanced !== undefined && slip.advanced !== null && slip.advanced !== '') ? Number(slip.advanced) : 0;
-                    let feesVal = (slip.fees !== undefined && slip.fees !== null && slip.fees !== '') ? Number(slip.fees) : 0;
-                    
-                    let basicVal = Number(slip.basic) || 0;
-                    let totalDeduction = redDeductionVal + greenDeductionVal;
-                    let baseNet = Number(slip.netWages) || (basicVal - totalDeduction);
-                    let finalNetWages = (baseNet - advancedVal - feesVal).toFixed(2);
+                let basicVal = Number(slip.basic) || 0;
+let redFdVal = Number(slip.redFd) || 0;
+let greenFdVal = Number(slip.greenFd) || 0;
+let workingDayVal = Number(slip.workingDay) || 26;
 
-                    let extraInfoHtml = `<div>Name: ${slip.name}</div>`;
-                    extraInfoHtml += `<div>Advanced: ${advancedVal.toFixed(2)}</div>`;
-                    extraInfoHtml += `<div>Fees: ${feesVal.toFixed(2)}</div>`;
+let redDeductionVal = Number(slip.deduction) > 0 ? Number(slip.deduction) : 0;
 
-                    pagesHtml += `
+let greenDeductionVal = 0;
+if (greenFdVal > 0) {
+    if (greenFdVal <= 2) {
+        greenDeductionVal = (basicVal * greenFdVal) / 30;
+    } else {
+        greenDeductionVal = (basicVal * greenFdVal) / workingDayVal;
+    }
+                             }
                         <div class="salary-slip">
                             <div>
                                 <div class="school-header">
