@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHRIPUR KINDERGARTEN SCHOOL - Wages Slip</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-weight: normal;
+            font-size: 9px;
+        }
+
+        body {
+            background-color: #cbd5e1;
+            color: #0f172a;
+            padding: 10px;
+        }
+
+        .no-print {
+            max-width: 800px;
+            margin: 0 auto 15px auto;
+            background: #ffffff;
+            padding: 15px;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .no-print h2 {
+            margin-bottom: 10px;
+            color: #1e293b;
+            font-size: 14px;
+        }
+
+        .form-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .form-group select {
+            padding: 6px 10px;
+            font-size: 12px;
+            border: 1px solid #94a3b8;
+            border-radius: 4px;
+            min-width: 180px;
+            outline: none;
+            background: #f8fafc;
+        }
+
+        .form-group button, .print-btn {
+            padding: 6px 12px;
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .print-btn {
+            background-color: #16a34a !important;
+        }
+
+        .container {
+            max-width: 210mm;
+            margin: 0 auto;
+        }
+
+        .a4-page {
+            width: 210mm;
+            height: 297mm;
+            background: #ffffff;
+            border: 1px solid #ccc;
+            margin: 0 auto 10mm auto;
+            padding: 6mm 8mm;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: repeat(3, 1fr);
+            gap: 4mm 6mm;
+            box-sizing: border-box;
+            page-break-after: always;
+        }
+
+        .salary-slip {
+            width: 100%;
+            height: 89mm;
+            background: #ffffff;
+            border: 1px solid #0f172a;
+            padding: 6px 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .school-header {
+            text-align: center;
+            border-bottom: 2px double #0f172a;
+            padding-bottom: 4px;
+            margin-bottom: 4px;
+        }
+
+        .school-top {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            margin-bottom: 2px;
+        }
+
+        .school-top img {
+            height: 22px;
+            width: auto;
+        }
+
+        .school-header h3 {
+            font-size: 13px;
+            color: #0f172a;
+            letter-spacing: 0.3px;
+        }
+
+        .school-address {
+            font-size: 7.5px;
+            color: #334155;
+            margin-bottom: 2px;
+        }
+
+        .month-title {
+            font-size: 9px;
+            color: #334155;
+            letter-spacing: 0.5px;
+        }
+
+        .staff-info-box {
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-radius: 3px;
+            padding: 4px 6px;
+            margin-bottom: 4px;
+            display: flex;
+            justify-content: space-between;
+            gap: 5px;
+        }
+
+        .staff-left {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            font-size: 8px;
+            line-height: 1.2;
+        }
+
+        .staff-right {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            font-size: 8px;
+            text-align: left;
+            max-width: 50%;
+            line-height: 1.2;
+            color: #334155;
+        }
+
+        .section-title {
+            font-size: 9px;
+            color: #1e293b;
+            margin-bottom: 2px;
+            border-left: 2px solid #2563eb;
+            padding-left: 3px;
+        }
+
+        .performance-table, .wages-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 8.5px;
+            margin-bottom: 4px;
+        }
+
+        .performance-table th, .performance-table td,
+        .wages-table th, .wages-table td {
+            border: 1px solid #64748b;
+            padding: 2px 4px;
+            text-align: center;
+        }
+
+        .performance-table td:nth-child(odd) {
+            text-align: left;
+            background-color: #f8fafc;
+            width: 28%;
+        }
+
+        .performance-table td:nth-child(even) {
+            width: 22%;
+        }
+
+        .spacer-col {
+            width: 4% !important;
+            border-top: none !important;
+            border-bottom: none !important;
+            background: transparent !important;
+        }
+
+        .wages-table th {
+            background-color: #e2e8f0;
+            color: #0f172a;
+        }
+
+        .wages-table td:last-child {
+            font-weight: 700 !important;
+            color: #1e40af !important;
+            background-color: #dbeafe !important;
+            font-size: 9.5px !important;
+        }
+
+        .conditions-box {
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-radius: 3px;
+            padding: 4px 6px;
+            margin-bottom: 4px;
+            display: flex;
+            justify-content: space-between;
+            gap: 5px;
+        }
+
+        .condition-col {
+            width: 48%;
+            font-size: 7px;
+            line-height: 1.3;
+            color: #334155;
+        }
+
+        .condition-col span {
+            display: block;
+            font-size: 7.5px;
+            margin-bottom: 2px;
+            color: #0f172a;
+            border-bottom: 1px solid #94a3b8;
+            padding-bottom: 1px;
+            font-weight: bold;
+        }
+
+        .signatures {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 4px;
+            padding-top: 2px;
+        }
+
+        .sig-box {
+            width: 80px;
+            text-align: center;
+        }
+
+        .sig-line {
+            border-top: 1px solid #0f172a;
+            padding-top: 2px;
+            font-size: 8px;
+            color: #0f172a;
+        }
+
+        @media print {
+            body {
+                background: none;
+                padding: 0;
+            }
+            .no-print {
+                display: none;
+            }
+            .a4-page {
+                border: none;
+                margin: 0;
+                padding: 5mm;
+                box-shadow: none;
+                page-break-after: always;
+                height: 297mm;
+            }
+            @page {
+                size: A4 portrait;
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="no-print">
+        <h2>SHRIPUR KINDERGARTEN SCHOOL - Wages Portal</h2>
+        <div class="form-group">
+            <!-- Month and Year Dropdown -->
+            <select id="monthSelect" onchange="filterSlips()">
+                <option value="ALL">All Months & Years</option>
+            </select>
+
+            <!-- Staff Name Dropdown -->
+            <select id="staffSelect" onchange="filterSlips()">
+                <option value="ALL">All Staff</option>
+            </select>
+
+            <button onclick="filterSlips()">Load Slips</button>
+        </div>
+        <button class="print-btn" onclick="window.print()">Print All Slips</button>
+    </div>
+
+    <div class="container" id="slipContainer">
+        <p style="text-align:center; color:#666; margin-top:30px;">Loading wages slips...</p>
+    </div>
+
+    <script>
+        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwr51gHL1y2SKsV_lMsWmfgOS_gO6eSkTLRWrjWut8E1QHagQcA8tXDmdEsMJA4osBd/exec";
+        let allSlipsData = [];
+
+        async function loadData() {
+            try {
+                const response = await fetch(GAS_WEB_APP_URL);
+                const data = await response.json();
+
+                if (data && data.length > 0) {
+                    allSlipsData = data;
+                    populateDropdowns(allSlipsData);
+                    renderSlips(allSlipsData);
+                } else {
+                    document.getElementById('slipContainer').innerHTML = "<p style='text-align:center; color:red;'>No data found!</p>";
+                }
+            } catch (error) {
+                console.error(error);
+                document.getElementById('slipContainer').innerHTML = "<p style='text-align:center; color:red;'>Failed to load data from server.</p>";
+            }
+        }
+
+        // Dynamically populate dropdown options
+        function populateDropdowns(data) {
+            const monthSelect = document.getElementById('monthSelect');
+            const staffSelect = document.getElementById('staffSelect');
+
+            // Combine month and year to create a unique list (e.g., AUGUST 2026)
+            const monthYearSet = new Set(data.map(item => `${item.month || ''} ${item.year || ''}`.trim()));
+            const monthsYears = [...monthYearSet].filter(item => item !== "");
+
+            // Create a unique list of staff names
+            const staffs = [...new Set(data.map(item => item.name))].filter(Boolean);
+
+            monthSelect.innerHTML = '<option value="ALL">All Months & Years</option>';
+            monthsYears.forEach(my => {
+                monthSelect.innerHTML += `<option value="${my}">${my}</option>`;
+            });
+
+            staffSelect.innerHTML = '<option value="ALL">All Staff</option>';
+            staffs.forEach(staff => {
+                staffSelect.innerHTML += `<option value="${staff}">${staff}</option>`;
+            });
+        }
+
+        // Filtering logic (by month-year and staff name)
+        function filterSlips() {
+            const selectedMonthYear = document.getElementById('monthSelect').value;
+            const selectedName = document.getElementById('staffSelect').value;
+
+            let filtered = allSlipsData;
+
+            if (selectedMonthYear !== 'ALL') {
+                filtered = filtered.filter(slip => `${slip.month || ''} ${slip.year || ''}`.trim() === selectedMonthYear);
+            }
+
+            if (selectedName !== 'ALL') {
+                filtered = filtered.filter(slip => slip.name === selectedName);
+            }
+
+            renderSlips(filtered);
+        }
+
+        function renderSlips(data) {
+            const container = document.getElementById('slipContainer');
+
+            if (!data || data.length === 0) {
+                container.innerHTML = "<p style='text-align:center; color:red; margin-top:30px;'>No matching records found!</p>";
+                return;
+            }
+
+            let pagesHtml = '';
+            for (let i = 0; i < data.length; i += 6) {
+                const pageSlips = data.slice(i, i + 6);
+                
+                pagesHtml += `<div class="a4-page">`;
+                
+                pageSlips.forEach(slip => {
+                    let basicVal = Number(slip.basic) || 0;
+                    let redFdVal = Number(slip.redFd) || 0;
+                    let greenFdVal = Number(slip.greenFd) || 0;
+                    let workingDayVal = Number(slip.workingDay) || 26;
+                    let slipMonth = slip.month || '';
+                    let slipYear = slip.year || '2026';
+                    
+                    let redDeductionVal = Number(slip.deduction) > 0 ? Number(slip.deduction) : 0;
+                    
+                    let greenDeductionVal = 0;
+                    if (greenFdVal > 0) {
+                        if (greenFdVal <= 2) {
+                            greenDeductionVal = (basicVal * greenFdVal) / 30;
+                        } else {
+                            greenDeductionVal = (basicVal * greenFdVal) / workingDayVal;
+                        }
+                    }
+                    
+                    let advancedVal = (slip.advanced !== undefined && slip.advanced !== null && slip.advanced !== '') ? Number(slip.advanced) : 0;
+                    let feesVal = (slip.fees !== undefined && slip.fees !== null && slip.fees !== '') ? Number(slip.fees) : 0;
+                    
+                    let totalDeduction = redDeductionVal + greenDeductionVal;
+                    let baseNet = Number(slip.netWages) || (basicVal - totalDeduction);
+                    let finalNetWages = (baseNet - advancedVal - feesVal).toFixed(2);
+
+                    pagesHtml += `
+                        <div class="salary-slip">
+                            <div>
+                                <div class="school-header">
+                                    <div class="school-top">
+                                        <img src="Images/logo.png" alt="Logo" onerror="this.style.display='none'">
+                                        <h3>SHRIPUR KINDERGARTEN SCHOOL</h3>
+                                    </div>
+                                    <div class="school-address">At: Shripur, PO: Jharbari, PS: Goalpokher, Distt: Uttardinajpur, WB, Pin: 733210</div>
+                                    <div class="month-title">Wages Slip # ${slipMonth} # ${slipYear}</div>
+                                </div>
+
+                                <div class="staff-info-box">
+                                    <div class="staff-left">
+                                        <div><strong>Name:</strong> ${slip.name}</div>
+                                        <div><strong>Advanced:</strong> ${advancedVal.toFixed(2)}</div>
+                                        <div><strong>Fees:</strong> ${feesVal.toFixed(2)}</div>
+                                    </div>
+                                    <div class="staff-right">
+                                        <div><strong>Address:</strong> ${slip.address}</div>
+                                        <div><strong>Phone:</strong> ${slip.phone}</div>
+                                    </div>
+                                </div>
+
+                                <div class="section-title">Performance Details</div>
+                                <table class="performance-table">
+                                    <tr>
+                                        <td>Total Days</td>
+                                        <td>${slip.totalDay}</td>
+                                        <td class="spacer-col"></td>
+                                        <td>Working Days</td>
+                                        <td>${slip.workingDay}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sundays</td>
+                                        <td>${slip.sunDay}</td>
+                                        <td class="spacer-col"></td>
+                                        <td>Red F.D.</td>
+                                        <td>${slip.redFd}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Holidays</td>
+                                        <td>${slip.holiDay}</td>
+                                        <td class="spacer-col"></td>
+                                        <td>Green F.D.</td>
+                                        <td>${slip.greenFd}</td>
+                                    </tr>
+                                </table>
+
+                                <div class="section-title">Wages Details</div>
+                                <table class="wages-table">
+                                    <tr>
+                                        <th>Basic</th>
+                                        <th>Red Dtn.</th>
+                                        <th>Green Dtn.</th>
+                                        <th>Net</th>
+                                    </tr>
+                                    <tr>
+                                        <td>${basicVal.toFixed(2)}</td>
+                                        <td>${redDeductionVal > 0 ? redDeductionVal.toFixed(2) : '0.00'}</td>
+                                        <td>${greenDeductionVal > 0 ? greenDeductionVal.toFixed(2) : '0.00'}</td>
+                                        <td>${finalNetWages}</td>
+                                    </tr>
+                                </table>
+
+                                <div class="conditions-box">
+                                    <div class="condition-col">
+                                        <span>Red Dtn</span>
+                                        IF FD = 1, Basic × FD / 30<br>
+                                        IF FD > 1, Basic × FD / Working Days
+                                    </div>
+                                    <div class="condition-col">
+                                        <span>Green Dtn</span>
+                                        IF FD ≤ 2, Basic × FD / 30<br>
+                                        IF FD > 2, Basic × FD / Working Days
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="signatures">
+                                <div class="sig-box">
+                                    <div class="sig-line">Staff</div>
+                                </div>
+                                <div class="sig-box">
+                                    <div class="sig-line">Principal</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                pagesHtml += `</div>`;
+            }
+
+            container.innerHTML = pagesHtml;
+        }
+
+        // Call data fetching function after page load
+        window.onload = loadData;
+    </script>
+</body>
+</html>
