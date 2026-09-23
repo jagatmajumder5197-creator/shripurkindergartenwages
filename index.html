@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shripur Kindergarten School - Wages Slip Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8;
+            color: #1f2937;
+        }
+
+        /* Control Panel */
+        .control-panel {
+            max-width: 900px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .control-panel h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #0f172a;
+            text-align: center;
+        }
+
+        .control-group {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .control-group select {
+            padding: 10px 15px;
+            font-size: 14px;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            background: #f9fafb;
+            cursor: pointer;
+            min-width: 250px;
+            transition: border-color 0.3s;
+        }
+
+        .control-group select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            background: white;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            font-size: 14px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-load {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-load:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-print {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-print:hover {
+            background: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 0 10px;
+        }
+
+        .loading {
+            text-align: center;
+            color: #6b7280;
+            font-size: 16px;
+            padding: 40px;
+        }
+
+        .error-message {
+            text-align: center;
+            color: #dc2626;
+            font-size: 16px;
+            padding: 40px;
+            background: #fee2e2;
+            border-radius: 8px;
+            margin: 20px;
+        }
+
+        /* A4 Page */
+        .a4-page {
+            width: 210mm;
+            height: 297mm;
+            background: white;
+            margin: 10mm auto 20mm auto;
+            padding: 10mm;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: repeat(3, 1fr);
+            gap: 8mm;
+            page-break-after: always;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Salary Slip Card */
+        .salary-slip {
+            background: white;
+            border: 1.5px solid #d1d5db;
+            border-radius: 6px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            font-size: 9px;
+            line-height: 1.4;
+        }
+
+        /* Header Section */
+        .slip-header {
+            border-bottom: 2px solid #1f2937;
+            padding-bottom: 8px;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .school-name {
+            font-size: 12px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 2px;
+            letter-spacing: 0.5px;
+        }
+
+        .school-address {
+            font-size: 7px;
+            color: #4b5563;
+            margin-bottom: 3px;
+            line-height: 1.3;
+        }
+
+        .month-title {
+            font-size: 8px;
+            color: #6b7280;
+            font-weight: 600;
+        }
+
+        /* Staff Info */
+        .staff-info {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 4px;
+            padding: 6px;
+            margin-bottom: 8px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+        }
+
+        .staff-detail {
+            font-size: 8px;
+            color: #374151;
+            line-height: 1.4;
+        }
+
+        .staff-detail-label {
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        /* Section Title */
+        .section-title {
+            font-size: 9px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-top: 6px;
+            margin-bottom: 4px;
+            padding-bottom: 3px;
+            border-bottom: 1px solid #3b82f6;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 8px;
+            margin-bottom: 6px;
+        }
+
+        th, td {
+            border: 1px solid #d1d5db;
+            padding: 3px 4px;
+            text-align: center;
+        }
+
+        th {
+            background: #e5e7eb;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        td {
+            background: white;
+        }
+
+        .label-cell {
+            text-align: left;
+            background: #f9fafb;
+            font-weight: 600;
+            color: #374151;
+            width: 50%;
+        }
+
+        .value-cell {
+            text-align: center;
+            background: white;
+            width: 25%;
+        }
+
+        .spacer {
+            border: none;
+            background: transparent;
+        }
+
+        /* Wages Table - NET Value Bold */
+        .wages-row td {
+            font-size: 9px;
+            padding: 4px 3px;
+            background: #f9fafb;
+        }
+
+        .wages-row td:last-child {
+            background: #dbeafe;
+            font-weight: 700;
+            color: #1e40af;
+            font-size: 10px;
+        }
+
+        /* Conditions Box */
+        .conditions {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 4px;
+            padding: 5px;
+            margin-bottom: 6px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5px;
+            font-size: 7px;
+            line-height: 1.3;
+            color: #4b5563;
+        }
+
+        .condition-item {
+            padding: 3px;
+        }
+
+        .condition-title {
+            font-weight: 700;
+            color: #1f2937;
+            border-bottom: 1px solid #d1d5db;
+            padding-bottom: 2px;
+            margin-bottom: 2px;
+            font-size: 7.5px;
+        }
+
+        /* Signatures */
+        .signatures {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 6px;
+            padding-top: 4px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .signature {
+            width: 35%;
+            text-align: center;
+        }
+
+        .sig-line {
+            border-top: 1px solid #1f2937;
+            padding-top: 2px;
+            font-size: 8px;
+            color: #374151;
+            margin-top: 8px;
+            font-weight: 600;
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .control-panel {
+                display: none;
+            }
+
+            .container {
+                margin: 0;
+                padding: 0;
+            }
+
+            .a4-page {
+                margin: 0;
+                padding: 10mm;
+                box-shadow: none;
+                border: none;
+            }
+
+            @page {
+                size: A4 portrait;
+                margin: 0;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .a4-page {
+                width: 100%;
+                height: auto;
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+            }
+
+            .salary-slip {
+                min-height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="control-panel">
+        <h1>Shripur Kindergarten School</h1>
+        <h3 style="text-align: center; font-size: 14px; color: #6b7280; font-weight: 400; margin-bottom: 20px;">Wages Slip Portal</h3>
+        
+        <div class="control-group">
+            <select id="staffSelect">
+                <option value="ALL">All Staff</option>
+            </select>
+            <button class="btn btn-load" onclick="fetchSlips()">Load Slips</button>
+            <button class="btn btn-print" onclick="window.print()">Print All</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div id="content" class="loading">Click 'Load Slips' to view wages slips.</div>
+    </div>
+
+    <script>
+        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwr51gHL1y2SKsV_lMsWmfgOS_gO6eSkTLRWrjWut8E1QHagQcA8tXDmdEsMJA4osBd/exec";
+        let allSlipsData = [];
+
+        // Load staff list on page load
+        document.addEventListener('DOMContentLoaded', loadStaffList);
+
+        async function loadStaffList() {
+            try {
+                const response = await fetch(GAS_WEB_APP_URL);
+                const data = await response.json();
+
+                if (data && Array.isArray(data) && data.length > 0) {
+                    allSlipsData = data;
+                    populateStaffSelect(data);
+                    renderSlips(data);
+                } else {
+                    showError('No staff data available. Please check the data source.');
+                }
+            } catch (error) {
+                console.error('Error loading staff list:', error);
+                showError('Failed to load staff data. Please check your connection.');
+            }
+        }
+
+        function populateStaffSelect(data) {
+            const staffSelect = document.getElementById('staffSelect');
+            staffSelect.innerHTML = '<option value="ALL">All Staff</option>';
+
+            data.forEach(slip => {
+                if (slip.name) {
+                    const option = document.createElement('option');
+                    option.value = slip.name;
+                    option.textContent = slip.name;
+                    staffSelect.appendChild(option);
+                }
+            });
+        }
+
+        function fetchSlips() {
+            const selectedName = document.getElementById('staffSelect').value;
+            
+            if (selectedName === 'ALL') {
+                renderSlips(allSlipsData);
+            } else {
+                const filtered = allSlipsData.filter(slip => slip.name === selectedName);
+                if (filtered.length > 0) {
+                    renderSlips(filtered);
+                } else {
+                    showError('No slips found for selected staff.');
+                }
+            }
+        }
+
+        function renderSlips(data) {
+            if (!data || data.length === 0) {
+                showError('No data to display.');
+                return;
+            }
+
+            let html = '';
+            let pageCount = 0;
+            let slipsOnPage = 0;
+
+            data.forEach((slip, index) => {
+                // Start new page if needed
+                if (slipsOnPage === 0) {
+                    if (pageCount > 0) html += '</div>';
+                    html += '<div class="a4-page">';
+                    pageCount++;
+                }
+
+                html += renderSlipCard(slip);
+                slipsOnPage++;
+
+                // Close page after 6 slips
+                if (slipsOnPage === 6) {
+                    slipsOnPage = 0;
+                }
+            });
+
+            // Close last page
+            if (slipsOnPage > 0) {
+                html += '</div>';
+            }
+
+            document.getElementById('content').innerHTML = html;
+        }
+
+        function renderSlipCard(slip) {
+            // Safe value parsing
+            const basic = parseFloat(slip.basic) || 0;
+            const deduction = parseFloat(slip.deduction) || 0;
+            const advanced = parseFloat(slip.advanced) || 0;
+            const fees = parseFloat(slip.fees) || 0;
+            const netWages = parseFloat(slip.netWages) || (basic - deduction);
+            const finalNetWages = (netWages - advanced - fees).toFixed(2);
+
+            const month = slip.month || 'N/A';
+            const name = slip.name || 'N/A';
+            const address = slip.address || 'N/A';
+            const phone = slip.phone || 'N/A';
+            const totalDay = slip.totalDay || '30';
+            const workingDay = slip.workingDay || '26';
+            const sunDay = slip.sunDay || '4';
+            const redFd = slip.redFd || '0';
+            const holiDay = slip.holiDay || '0';
+            const greenFd = slip.greenFd || '0';
+
+            let advancedRow = '';
+            let feesRow = '';
+
+            if (advanced > 0) {
+                advancedRow = `<div class="staff-detail"><span class="staff-detail-label">Advanced:</span> ${advanced.toFixed(2)}</div>`;
+            }
+            if (fees > 0) {
+                feesRow = `<div class="staff-detail"><span class="staff-detail-label">Fees:</span> ${fees.toFixed(2)}</div>`;
+            }
+
+            return `
+                <div class="salary-slip">
+                    <div>
+                        <!-- Header -->
+                        <div class="slip-header">
+                            <div class="school-name">Shripur Kindergarten School</div>
+                            <div class="school-address">At: Shripur, PO: Jharbari, PS: Goalpokher, Distt: Uttardinajpur, WB, Pin: 733210</div>
+                            <div class="month-title">Wages Slip # ${month} # 2026</div>
+                        </div>
+
+                        <!-- Staff Information -->
+                        <div class="staff-info">
+                            <div>
+                                <div class="staff-detail"><span class="staff-detail-label">Name:</span> ${name}</div>
+                                ${advancedRow}
+                                ${feesRow}
+                            </div>
+                            <div>
+                                <div class="staff-detail"><span class="staff-detail-label">Address:</span> ${address}</div>
+                                <div class="staff-detail"><span class="staff-detail-label">Phone:</span> ${phone}</div>
+                            </div>
+                        </div>
+
+                        <!-- Performance Details -->
+                        <div class="section-title">Performance Details</div>
+                        <table>
+                            <tr>
+                                <td class="label-cell">Total Days</td>
+                                <td class="value-cell">${totalDay}</td>
+                                <td class="spacer"></td>
+                                <td class="label-cell">Working Days</td>
+                                <td class="value-cell">${workingDay}</td>
+                            </tr>
+                            <tr>
+                                <td class="label-cell">Sundays</td>
+                                <td class="value-cell">${sunDay}</td>
+                                <td class="spacer"></td>
+                                <td class="label-cell">Red F.D.</td>
+                                <td class="value-cell">${redFd}</td>
+                            </tr>
+                            <tr>
+                                <td class="label-cell">Holidays</td>
+                                <td class="value-cell">${holiDay}</td>
+                                <td class="spacer"></td>
+                                <td class="label-cell">Green F.D.</td>
+                                <td class="value-cell">${greenFd}</td>
+                            </tr>
+                        </table>
+
+                        <!-- Wages Details -->
+                        <div class="section-title">Wages Details</div>
+                        <table>
+                            <tr>
+                                <th style="width: 25%;">Basic</th>
+                                <th style="width: 25%;">Deduction</th>
+                                <th style="width: 25%;">Other</th>
+                                <th style="width: 25%;">NET</th>
+                            </tr>
+                            <tr class="wages-row">
+                                <td>${basic.toFixed(2)}</td>
+                                <td>${deduction.toFixed(2)}</td>
+                                <td>0.00</td>
+                                <td>${finalNetWages}</td>
+                            </tr>
+                        </table>
+
+                        <!-- Deduction Rules -->
+                        <div class="conditions">
+                            <div class="condition-item">
+                                <div class="condition-title">Red Deduction</div>
+                                IF FD = 1, Basic × FD / 30<br>
+                                IF FD > 1, Basic × FD / Working Days
+                            </div>
+                            <div class="condition-item">
+                                <div class="condition-title">Green Deduction</div>
+                                IF FD ≤ 2, Basic × FD / 30<br>
+                                IF FD > 2, Basic × FD / Working Days
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Signatures -->
+                    <div class="signatures">
+                        <div class="signature">
+                            <div class="sig-line">Staff Signature</div>
+                        </div>
+                        <div class="signature">
+                            <div class="sig-line">Principal Signature</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function showError(message) {
+            document.getElementById('content').innerHTML = `<div class="error-message">${message}</div>`;
+        }
+    </script>
+
+</body>
+</html>
