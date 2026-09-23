@@ -114,32 +114,34 @@
             font-size: 8.5px;
             line-height: 1.3;
         }
-
-   
-      
         
-  .school-header {
-    display: flex;
-    align-items: center;
-    border-bottom: 2px solid #1f2937;
-    padding-bottom: 6px;
-    margin-bottom: 6px;
-    gap: 8px;
-}
+        .school-header {
+            display: flex;
+            align-items: center;
+            border-bottom: 2px solid #1f2937;
+            padding-bottom: 6px;
+            margin-bottom: 6px;
+            gap: 8px;
+        }
 
-.school-header img {
-    height: 24px;
-    width: auto;
-    flex-shrink: 0;      
-    margin-bottom: 0;
-}
+        .school-header img {
+            height: 24px;
+            width: auto;
+            flex-shrink: 0;      
+            margin-bottom: 0;
+        }
 
-.school-header > div {
-    text-align: left;    
-    flex-grow: 1;  
-    min-width: 0;
-}
+        .school-header > div {
+            text-align: left;    
+            flex-grow: 1;  
+            min-width: 0;
+        }
         
+        .school-address {
+            font-size: 7px;
+            color: #4b5563;
+            margin-bottom: 2px;
+        }
         
         .month-title {
             font-size: 8px;
@@ -359,7 +361,6 @@
 
             let processedData = [];
 
-            // Handle different data formats
             if (Array.isArray(rawData)) {
                 console.log('Data is an array, length:', rawData.length);
                 
@@ -368,16 +369,13 @@
                     return;
                 }
 
-                // Check if first element is array (2D array) or object
                 if (Array.isArray(rawData[0])) {
                     console.log('Format: 2D Array - Headers in first row');
                     const headers = rawData[0].map((h, idx) => {
                         const headerStr = String(h || '').trim();
-                        console.log(`Header ${idx}: '${headerStr}'`);
                         return headerStr;
                     });
 
-                    // Process data rows starting from index 1
                     for (let i = 1; i < rawData.length; i++) {
                         const row = rawData[i];
                         if (!row) continue;
@@ -389,7 +387,6 @@
                         });
 
                         processedData.push(rowObj);
-                        console.log(`Row ${i}:`, rowObj);
                     }
                 } else if (typeof rawData[0] === 'object') {
                     console.log('Format: Array of Objects');
@@ -398,7 +395,6 @@
                         Object.keys(item).forEach(key => {
                             obj[key.trim()] = String(item[key] || '').trim();
                         });
-                        console.log(`Item ${idx}:`, obj);
                         return obj;
                     });
                 }
@@ -407,121 +403,79 @@
                 processedData = [rawData];
             }
 
-            console.log(`Total rows processed: ${processedData.length}`);
-
-            // Filter for ACT records
-            console.log('=== FILTERING FOR ACT ===');
             allDataFiltered = processedData.filter((row, idx) => {
                 const stat = String(row.STAT || '').trim().toUpperCase();
-                const match = stat === 'ACT';
-                console.log(`Row ${idx}: STAT='${String(row.STAT || '')}' | Trimmed & Upper='${stat}' | Match=${match} | Name=${row.NAME_OF_STAFF || 'N/A'}`);
-                return match;
+                return stat === 'ACT';
             });
 
-            console.log(`ACT records found: ${allDataFiltered.length}`);
-
             if (allDataFiltered.length === 0) {
-                console.warn('No ACT records found!');
-                console.warn('All STAT values:', processedData.map(r => `'${r.STAT}'`));
                 showError('No active records found in the data');
                 return;
             }
 
             allData = allDataFiltered;
-            console.log('ACT data:', allData);
-
-            // Populate filters and render
             populateFilters();
             renderSlips(allData);
         }
 
         function populateFilters() {
-            console.log('=== POPULATING FILTERS ===');
-            
             const monthYearSet = new Set();
             const staffSet = new Set();
 
-            allData.forEach((row, idx) => {
+            allData.forEach((row) => {
                 const month = String(row.MONTH || '').trim();
                 const year = String(row.YEAR || '').trim();
                 const name = String(row.NAME_OF_STAFF || '').trim();
 
                 if (month && year) {
-                    const monthYear = `${month} ${year}`;
-                    monthYearSet.add(monthYear);
-                    console.log(`Row ${idx}: Added month-year: '${monthYear}'`);
+                    monthYearSet.add(`${month} ${year}`);
                 }
 
                 if (name) {
                     staffSet.add(name);
-                    console.log(`Row ${idx}: Added staff: '${name}'`);
                 }
             });
 
-            // Update Month/Year dropdown
             const monthYearSelect = document.getElementById('monthYearSelect');
-            const monthYearArray = Array.from(monthYearSet).sort();
-            monthYearArray.forEach(my => {
+            Array.from(monthYearSet).sort().forEach(my => {
                 const option = document.createElement('option');
                 option.value = my;
                 option.textContent = my;
                 monthYearSelect.appendChild(option);
             });
-            console.log(`Month/Year options added: ${monthYearArray.length}`);
 
-            // Update Staff dropdown
             const staffSelect = document.getElementById('staffSelect');
-            const staffArray = Array.from(staffSet).sort();
-            staffArray.forEach(staff => {
+            Array.from(staffSet).sort().forEach(staff => {
                 const option = document.createElement('option');
                 option.value = staff;
                 option.textContent = staff;
                 staffSelect.appendChild(option);
             });
-            console.log(`Staff options added: ${staffArray.length}`);
         }
 
         function applyFilters() {
-            console.log('=== APPLYING FILTERS ===');
-            
             const selectedMonthYear = document.getElementById('monthYearSelect').value;
             const selectedStaff = document.getElementById('staffSelect').value;
-
-            console.log(`Selected Month/Year: '${selectedMonthYear}'`);
-            console.log(`Selected Staff: '${selectedStaff}'`);
 
             let filtered = allData;
 
             if (selectedMonthYear !== 'ALL') {
                 const [month, year] = selectedMonthYear.split(' ');
-                console.log(`Filtering by month='${month}' year='${year}'`);
-                
                 filtered = filtered.filter(row => {
-                    const rowMonth = String(row.MONTH || '').trim();
-                    const rowYear = String(row.YEAR || '').trim();
-                    const match = rowMonth === month && rowYear === year;
-                    return match;
+                    return String(row.MONTH || '').trim() === month && String(row.YEAR || '').trim() === year;
                 });
             }
 
             if (selectedStaff !== 'ALL') {
-                console.log(`Filtering by staff='${selectedStaff}'`);
-                
                 filtered = filtered.filter(row => {
-                    const rowStaff = String(row.NAME_OF_STAFF || '').trim();
-                    const match = rowStaff === selectedStaff;
-                    return match;
+                    return String(row.NAME_OF_STAFF || '').trim() === selectedStaff;
                 });
             }
 
-            console.log(`Filtered records: ${filtered.length}`);
             renderSlips(filtered);
         }
 
         function renderSlips(data) {
-            console.log('=== RENDERING SLIPS ===');
-            console.log(`Rendering ${data.length} slips`);
-
             const container = document.getElementById('slipContainer');
 
             if (!data || data.length === 0) {
@@ -531,7 +485,6 @@
 
             let html = '';
             
-            // Create A4 pages (6 slips per page)
             for (let pageIdx = 0; pageIdx < data.length; pageIdx += 6) {
                 const pageSlips = data.slice(pageIdx, pageIdx + 6);
                 html += '<div class="a4-page">';
@@ -544,11 +497,9 @@
             }
 
             container.innerHTML = html;
-            console.log('Slips rendered successfully');
         }
 
         function generateSlip(row) {
-            // Parse numeric values
             const basic = parseFloat(row.BASIC) || 0;
             const redFd = parseFloat(row.RED_FD) || 0;
             const greenFd = parseFloat(row.GREEN_FD) || 0;
@@ -556,15 +507,14 @@
             const advanced = parseFloat(row.ADVANCED) || 0;
             const fees = parseFloat(row.FEES) || 0;
 
-            // Calculate Red Deduction
+            // Fixed Red Deduction calculation logic
             let redDtn = 0;
             if (redFd === 1) {
-                redDtn = (basic * 1) / 30;
+                redDtn = (basic * redFd) / 30;
             } else if (redFd > 1) {
                 redDtn = (basic * redFd) / workingDay;
             }
 
-            // Calculate Green Deduction
             let greenDtn = 0;
             if (greenFd > 0 && greenFd <= 2) {
                 greenDtn = (basic * greenFd) / 30;
@@ -572,10 +522,8 @@
                 greenDtn = (basic * greenFd) / workingDay;
             }
 
-            // Calculate Final Net Wages
             const netWages = (basic - redDtn - greenDtn - advanced - fees).toFixed(2);
 
-            // Get string values
             const month = String(row.MONTH || '').trim();
             const year = String(row.YEAR || '').trim();
             const name = String(row.NAME_OF_STAFF || '').trim();
@@ -588,19 +536,14 @@
             return `
                 <div class="salary-slip">
                     <div>
-                             
-                        
-                    
-   <div class="school-header">
-    <img src="Images/logo.png" alt="Logo" onerror="this.style.display='none'">
-    <div>
-        <h3>SHRIPUR KINDERGARTEN SCHOOL</h3>
-        <div class="school-address">At: Shripur, PO: Jharbari, PS: Goalpokher, Distt: Uttardinajpur, WB, Pin: 733210</div>
-        <div class="month-title">Wages Slip # ${month} # ${year}</div>
-    </div>
-</div>
-                        
-                        
+                        <div class="school-header">
+                            <img src="Images/logo.png" alt="Logo" onerror="this.style.display='none'">
+                            <div>
+                                <h3>SHRIPUR KINDERGARTEN SCHOOL</h3>
+                                <div class="school-address">Shripur, Uttardinajpur, WB - 733210</div>
+                                <div class="month-title">Wages Slip # ${month} # ${year}</div>
+                            </div>
+                        </div>
                         
                         <div class="staff-box">
                             <div class="staff-col">
@@ -626,7 +569,6 @@
                             <tr>
                                 <td class="perf-label">Sundays</td>
                                 <td class="perf-value">${sunDay}</td>
-                                <td class="spacer"></td>
                                 <td class="perf-label">Red F.D.</td>
                                 <td class="perf-value">${redFd.toFixed(0)}</td>
                             </tr>
@@ -658,7 +600,7 @@
                         <div class="conditions">
                             <div class="condition-item">
                                 <span>Red Deduction</span>
-                                If FD=1: Basic÷30<br>If FD>1: Basic×FD÷WorkDays
+                                If FD=1: Basic×FD÷30<br>If FD>1: Basic×FD÷WorkDays
                             </div>
                             <div class="condition-item">
                                 <span>Green Deduction</span>
@@ -683,7 +625,6 @@
             document.getElementById('slipContainer').innerHTML = `<div class="error">${message}</div>`;
         }
 
-        // Start fetching data when page loads
         window.addEventListener('load', fetchData);
     </script>
 
